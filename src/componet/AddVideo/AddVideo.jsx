@@ -8,6 +8,8 @@ import {
   Flex,
   SimpleGrid,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { addVideo } from '../../data/videos';
 
 const AddVideo = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +22,7 @@ const AddVideo = () => {
     duration: '',
     views: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,8 +33,32 @@ const AddVideo = () => {
   };
 
   const handleSubmit = () => {
-    console.log('Form submitted:', formData);
-    // You can now send `formData` to a backend API or local state
+    const requiredFields = ['title', 'author', 'videoLink', 'thumbnail'];
+    const isValid = requiredFields.every((field) => formData[field].trim() !== '');
+
+    if (!isValid) {
+      alert('Please fill in all required fields: Title, Author, Video Link, Thumbnail.');
+      return;
+    }
+    const newVideoId = addVideo({
+      title: formData.title,
+      author: formData.author,
+      description: formData.description,
+      videoLink: formData.videoLink,
+      thumbnail: formData.thumbnail,
+      date: formData.date || new Date().toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }),
+      duration: formData.duration || '0:00',
+      views: formData.views || '0',
+    });
+
+    alert('Video added successfully!');
+    setTimeout(() => {
+      navigate('/');
+    }, 500);
   };
 
   return (
@@ -43,21 +70,21 @@ const AddVideo = () => {
 
       <SimpleGrid columns={{ base: 1, md: 2 }} gap={5} mb={4}>
         <Box>
-          <Text mb={1}>Title</Text>
+          <Text mb={1}>Title *</Text>
           <Input
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Enter title"
+            placeholder="Enter your title"
           />
         </Box>
         <Box>
-          <Text mb={1}>Author</Text>
+          <Text mb={1}>Author *</Text>
           <Input
             name="author"
             value={formData.author}
             onChange={handleChange}
-            placeholder="Enter author"
+            placeholder="Enter your author"
           />
         </Box>
       </SimpleGrid>
@@ -73,7 +100,7 @@ const AddVideo = () => {
       </Box>
 
       <Box mb={4}>
-        <Text mb={1}>YouTube Video Link</Text>
+        <Text mb={1}>YouTube Video Link *</Text>
         <Input
           name="videoLink"
           value={formData.videoLink}
@@ -83,7 +110,7 @@ const AddVideo = () => {
       </Box>
 
       <Box mb={4}>
-        <Text mb={1}>Thumbnail Link</Text>
+        <Text mb={1}>Thumbnail Link *</Text>
         <Input
           name="thumbnail"
           value={formData.thumbnail}
@@ -99,7 +126,7 @@ const AddVideo = () => {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            placeholder="May 3, 2022"
+            placeholder="May 17, 2025"
           />
         </Box>
         <Box>
@@ -108,7 +135,7 @@ const AddVideo = () => {
             name="duration"
             value={formData.duration}
             onChange={handleChange}
-            placeholder="12:10"
+            placeholder="00:00"
           />
         </Box>
         <Box>
@@ -117,7 +144,7 @@ const AddVideo = () => {
             name="views"
             value={formData.views}
             onChange={handleChange}
-            placeholder="200"
+            placeholder="3000"
           />
         </Box>
       </SimpleGrid>

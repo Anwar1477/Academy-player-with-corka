@@ -1,10 +1,10 @@
-export const videos = [
+let videos = [
   {
     id: 1,
     title: "Introduction to React",
     author: "Academy LMS",
     description: "Learn the basics of React in this introductory course.",
-    videoLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    videoLink: "https://www.youtube.com/watch?v=example1",
     thumbnail: "/src/assets/alms.jpg",
     date: "May 3, 2022",
     duration: "12:10",
@@ -66,3 +66,11 @@ export const videos = [
     views: "400",
   },
 ];
+
+export const getVideos = () => videos;
+
+export const addVideo = (newVideo) => {
+  const newId = videos.length > 0 ? Math.max(...videos.map(v => v.id)) + 1 : 1;
+  videos = [...videos, { ...newVideo, id: newId }];
+  return newId;
+};

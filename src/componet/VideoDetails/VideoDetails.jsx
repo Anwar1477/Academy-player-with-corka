@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { videos } from '../../data/videos';
+import { getVideos } from '../../data/videos';
 import {
   Box,
   Text,
@@ -13,6 +13,7 @@ import { FaCube } from 'react-icons/fa';
 
 const VideoDetails = () => {
   const { id } = useParams();
+  const videos = getVideos();
   const video = videos.find((v) => v.id === parseInt(id));
 
   if (!video) {
