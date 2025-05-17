@@ -4,18 +4,24 @@ import {
   Text,
   Flex,
   Icon,
-  Avatar,
 } from "@chakra-ui/react";
 import { FaCube } from "react-icons/fa";
-import thumbnail from "../../assets/alms.jpg";
+import { Link } from 'react-router-dom';
 
-export default function VideoCard() {
+export default function VideoCard({ video }) {
   return (
-    <Box maxW="sm" borderRadius="md" overflow="hidden" boxShadow="md">
-     
+    <Box
+      as={Link}
+      to={`/video/${video.id}`}
+      maxW="sm"
+      borderRadius="md"
+      overflow="hidden"
+      boxShadow="md"
+      _hover={{ boxShadow: 'lg', cursor: 'pointer' }}
+    >
       <Box position="relative">
         <Image
-          src={thumbnail}
+          src={video.thumbnail}
           alt="Video Thumbnail"
         />
         <Text
@@ -29,23 +35,21 @@ export default function VideoCard() {
           py={0.5}
           borderRadius="sm"
         >
-          12:10
+          {video.duration}
         </Text>
       </Box>
 
       <Flex p={3} gap={3}>
-        {/* Icon */}
         <Icon as={FaCube} boxSize={6} color="purple.500" />
-
         <Box>
           <Text fontWeight="bold" fontSize="sm">
-            Video title
+            {video.title}
           </Text>
           <Text fontSize="sm" color="gray.600">
-            Academy Lms
+            {video.author}
           </Text>
           <Text fontSize="xs" color="gray.500">
-            200 views • May 3, 2022
+            {video.views} views • {video.date}
           </Text>
         </Box>
       </Flex>
