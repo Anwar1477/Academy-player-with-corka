@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import icon from '../../assets/lms.svg'
 export default function Navbar() {
   return (
-    <Box bg="gray.50" boxShadow="sm" px={4} py={2}>
+    <Box bg="gray.100" px={6} py={4}>
       <Flex justify="space-between" maxW="1200px" align="center" mx="auto">
         <Link to="/">
           <img src={icon} alt="Logo" />
